@@ -596,7 +596,7 @@ def format_account_output(info, cookies, is_subscribed, nftoken_data=None):
     lines.append("")
     lines.append("-" * 98)
     lines.append("")
-    lines.append("Checker By: github.com/Aryan-1267 | Converted for Butter")
+    lines.append("Checker By: github.com/Hidden-Rhythm")
     lines.append("Netflix COOKIE :👇")
     lines.append("")
     lines.append(format_cookies_netscape(cookies))
