@@ -484,9 +484,7 @@ def is_on_hold(info):
     status = normalize_plan_key(decode_value(info.get('membershipStatus','')) or '')
     return any(t in status for t in ['hold','past_due','payment_retry','paused','suspend'])
 
-# ============================================================
 # NFTOKEN GENERATION
-# ============================================================
 def generate_nftoken(cookies):
     """Generate NFToken for one-click login"""
     netflix_id = cookies.get('NetflixId','')
@@ -541,9 +539,7 @@ def format_nftoken_links(token_data):
         links.append(("📱 Phone Login", f"https://netflix.com/unsupported?nftoken={token}"))
     return links
 
-# ============================================================
 # OUTPUT FORMATTING
-# ============================================================
 def format_account_output(info, cookies, is_subscribed, nftoken_data=None):
     """Format account info for output file"""
     plan_key, plan_name = derive_plan(info, is_subscribed)
