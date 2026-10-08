@@ -509,15 +509,6 @@ Building small tools, experiments, and automation projects.
 
 </div>
 
----
-
-# 📜 License
-
-No explicit open-source license is currently included in this repository.
-
-Unless a license is added, the repository should **not** be assumed to grant permission to redistribute, modify, or commercially use the code.
-
----
 
 <div align="center">
 
